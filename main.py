@@ -4,6 +4,7 @@ from routers.moduloInventario import carpeta_router,  reporte_router, user_route
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from dataAccess.moduloInventario import LogDataAccess
+from fastapi.middleware.cors import CORSMiddleware
 
  
 
@@ -14,6 +15,14 @@ origins = [
     "http://localhost:8003",  # Ajusta a los orígenes que necesitas
     "http://127.0.0.1:8003",  # Por ejemplo, la URL de tu frontend
 ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Los orígenes que pueden realizar solicitudes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
