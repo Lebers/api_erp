@@ -10,6 +10,11 @@ from dataAccess.moduloInventario import LogDataAccess
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:8003",  # Ajusta a los orígenes que necesitas
+    "http://127.0.0.1:8003",  # Por ejemplo, la URL de tu frontend
+]
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     log_data_access = LogDataAccess()
