@@ -1,15 +1,17 @@
-def create_reporte():
-    # Lógica para crear un reporte
-    return {"message": "Reporte created"}
+# En controllers/reporte_controller.py
 
-def get_reportes():
-    # Lógica para obtener todos los reportes
-    return {"message": "Reportes fetched"}
+from typing import List
+from models.caja import Caja
+from models.carpeta import Carpeta
+from business.CajaBusiness import CajaBusiness
+from business.CarpetaBusiness import CarpetaBusiness
+from datetime import date
 
-def get_reporte(reporte_id: int):
-    # Lógica para obtener un reporte específico
-    return {"message": f"Reporte {reporte_id} fetched"}
 
-def delete_reporte(reporte_id: int):
-    # Lógica para eliminar un reporte
-    return {"message": f"Reporte {reporte_id} deleted"}
+def get_reporte_cajas(fecha_inicio: date, fecha_fin: date) -> List[Caja]:
+    caja_business = CajaBusiness()
+    return caja_business.get_cajas_by_fecha(fecha_inicio, fecha_fin)
+
+def get_reporte_carpetas(fecha_inicio: date, fecha_fin: date) -> List[Carpeta]:
+    carpeta_business = CarpetaBusiness()
+    return carpeta_business.get_carpetas_by_fecha(fecha_inicio, fecha_fin)

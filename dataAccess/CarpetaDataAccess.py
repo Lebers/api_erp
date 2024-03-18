@@ -3,6 +3,7 @@ import mysql.connector
 from functions.db import Database
 from models.carpeta import Carpeta as CarpetaModel, CarpetaInDB
 from typing import List, Tuple
+from datetime import date
 
 
 class CarpetaDataAccess:
@@ -123,6 +124,24 @@ class CarpetaDataAccess:
             query = "SELECT COUNT(*) FROM carpetas WHERE caja_id = %s AND is_delete IS NULL"
             result = db.execute_query(query, (caja_id,))
             return result[0]['COUNT(*)'] if result else 0
+        finally:
+            db.disconnect()
+
+    def get_carpetas_by_fecha(self, fecha_inicio: date, fecha_fin: date):
+        db = Database()
+        try:
+            db.connect()
+            query = """
+                SELECT * FROM carpetas
+                WHERE createDate BETWEEN %s AND %s
+                AND is_delete IS NULL
+            """
+            result = db.execute_query(query, (fecha_inicio, fecha_fin))
+            carpetas = [CarpetaInDB(**data) for data in result]
+            return carpetas
+        except mysql.connector.Error as e:
+            self.log_error(db, e)
+            return []
         finally:
             db.disconnect()
 

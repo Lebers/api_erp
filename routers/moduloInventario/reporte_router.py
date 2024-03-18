@@ -1,20 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from controllers import reporte_controller
+from datetime import date
+from typing import List
+from models.caja import Caja
+from models.carpeta import Carpeta
+
+from functions.dependencies import get_current_user
+
+
 
 router = APIRouter()
 
-@router.post("/reportes", tags=["Reporte"])
-def create_reporte():
-    return reporte_controller.create_reporte()
+@router.get("/reportes/cajas", response_model=List[Caja])
+def reporte_cajas(fecha_inicio: date, fecha_fin: date, user: str = Depends(get_current_user)):
+    return reporte_controller.get_reporte_cajas(fecha_inicio, fecha_fin)
 
-@router.get("/reportes", tags=["Reporte"])
-def get_reportes():
-    return reporte_controller.get_reportes()
-
-@router.get("/reportes/{reporte_id}", tags=["Reporte"])
-def get_reporte(reporte_id: int):
-    return reporte_controller.get_reporte(reporte_id)
-
-@router.delete("/reportes/{reporte_id}", tags=["Reporte"])
-def delete_reporte(reporte_id: int):
-    return reporte_controller.delete_reporte(reporte_id)
+@router.get("/reportes/carpetas", response_model=List[Carpeta])
+def reporte_carpetas(fecha_inicio: date, fecha_fin: date, user: str = Depends(get_current_user)):
+    return reporte_controller.get_reporte_carpetas(fecha_inicio, fecha_fin)

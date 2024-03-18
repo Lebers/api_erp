@@ -2,6 +2,7 @@ import mysql.connector
 from functions.db import Database
 from models.caja import Caja as CajaModel
 from models.caja import CajaInDB
+from datetime import date
 
 class CajaDataAccess:
     def log_error(self, db, error):
@@ -150,5 +151,23 @@ class CajaDataAccess:
         except mysql.connector.Error as e:
             log_id = self.log_error(db, e)
             return log_id, 500, "Error al borrar caja"
+        finally:
+            db.disconnect()
+
+    def get_cajas_by_fecha(self, fecha_inicio: date, fecha_fin: date):
+        db = Database()
+        try:
+            db.connect()
+            query = """
+                SELECT * FROM cajas
+                WHERE createDate BETWEEN %s AND %s
+                AND is_delete IS NULL
+            """
+            result = db.execute_query(query, (fecha_inicio, fecha_fin))
+            cajas = [CajaInDB(**data) for data in result]
+            return cajas
+        except mysql.connector.Error as e:
+            self.log_error(db, e)
+            return []
         finally:
             db.disconnect()

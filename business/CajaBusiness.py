@@ -1,6 +1,8 @@
 # business/moduloInventario.py
 from dataAccess.CajaDataAccess import CajaDataAccess
 from models.caja import Caja as CajaModel
+from datetime import date
+
 
 caja_data_access = CajaDataAccess()
 
@@ -55,3 +57,6 @@ class CajaBusiness:
         log_id, status_code, msg = response
 
         return log_id, status_code, msg
+    
+    def get_cajas_by_fecha(self, fecha_inicio: date, fecha_fin: date):
+        return caja_data_access.get_cajas_by_fecha(fecha_inicio, fecha_fin)

@@ -4,6 +4,7 @@ from models.carpeta import Carpeta as CarpetaModel
 from dataAccess.CajaDataAccess import CajaDataAccess
 from typing import List
 from models.carpeta import MultipleCarpetasCreate
+from datetime import date
 
 
 class CarpetaBusiness:
@@ -93,6 +94,9 @@ class CarpetaBusiness:
         log_id, status_code, msg = response
 
         return log_id, status_code, msg
+    
+    def get_carpetas_by_fecha(self, fecha_inicio: date, fecha_fin: date):
+        return self.carpeta_data_access.get_carpetas_by_fecha(fecha_inicio, fecha_fin)
     
      
 
