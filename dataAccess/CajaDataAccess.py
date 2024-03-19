@@ -168,10 +168,11 @@ class CajaDataAccess:
                     c.id, 
                     c.code, 
                     c.createDate, 
-                    c.createUser, 
+                    (SELECT GetUserName(c.createUser)) AS createUser, 
+                    
                     c.updateDate, 
                     c.updateUser, 
-                    c.deleteDate, 
+                    c.deleteDate,  
                     c.deleteUser, 
                     c.is_delete,
                     CASE
