@@ -17,7 +17,7 @@ class Caja(BaseModel):
     amount: Optional[int] = Field(0, alias='amount') 
 
 class CajaInDB(BaseModel):
-    id:   Optional[int] = Field(0, alias='amount') 
+    id:   int
     code: str
     createDate: Optional[datetime] = Field(None, alias='createDate')
     createUser: Optional[str] = Field(None, alias='createUser')
