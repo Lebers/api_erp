@@ -1,3 +1,3 @@
 @echo off
-py requirements.py
+py scr/requirements.py
 pause

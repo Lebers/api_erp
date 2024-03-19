@@ -185,16 +185,7 @@ class CajaDataAccess:
                     c.createDate BETWEEN %s AND %s
                     AND c.is_delete IS NULL
                 GROUP BY 
-                    c.id, 
-                    c.code, 
-                    c.createDate, 
-                    c.createUser, 
-                    c.updateDate, 
-                    c.updateUser, 
-                    c.deleteDate, 
-                    c.deleteUser, 
-                    c.is_delete,
-                    c.amount
+                    c.id
             """
             result = db.execute_query(query, (fecha_inicio, fecha_fin))
             cajas = []

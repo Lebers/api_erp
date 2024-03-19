@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 def login(username: str, password: str):
     user_business = UserBusiness()
     response = user_business.authenticate_user(username, password)
-    print("login-response:",response)
     data, log_id, status_code,msg = response
     if data:
         return ApiResponse.success({"token": data}, msg)

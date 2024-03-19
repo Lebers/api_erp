@@ -13,5 +13,4 @@ def login(username: str = Form(...), password: str = Form(...)):
 
 @router.post("/token/refresh", tags=["Auth"], responses=response_descriptions) 
 def refresh_token(current_user: dict = Depends(get_current_user)):
-    print("current_user-current_user",current_user)
     return auth_controller.refresh_token(current_user) 

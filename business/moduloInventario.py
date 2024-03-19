@@ -34,7 +34,6 @@ class UserBusiness:
 
     def authenticate_user(self, username: str, password: str):
         response = self.user_data_access.get_user_by_username(username)
-        print("authenticate_user-response",response)
         data, log_id, *rest = response
 
         if data:

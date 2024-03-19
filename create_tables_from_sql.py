@@ -49,6 +49,6 @@ def create_tables(sql_instructions, db_host, db_user, db_password, db_name):
             print("Conexión a la base de datos cerrada.")
 
 # Ejemplo de uso
-sql_file_path = 'moduloinventario.sql'
+sql_file_path = 'scr/moduloinventario.sql'
 sql_instructions = read_sql_file(sql_file_path)
 create_tables(sql_instructions, db_host, db_user, db_password, db_name)
