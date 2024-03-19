@@ -183,10 +183,10 @@ class CajaDataAccess:
                 LEFT JOIN
                     carpetas cf ON c.id = cf.caja_id
                 WHERE 
-                    c.createDate BETWEEN %s AND %s
+                    c.createDate >= %s AND c.createDate < DATE_ADD(%s, INTERVAL 1 DAY)
                     AND c.is_delete IS NULL
                 GROUP BY 
-                    c.id
+                    c.id, c.code, c.createDate, c.createUser, c.updateDate, c.updateUser, c.deleteDate, c.deleteUser, c.is_delete
             """
             result = db.execute_query(query, (fecha_inicio, fecha_fin))
             cajas = []

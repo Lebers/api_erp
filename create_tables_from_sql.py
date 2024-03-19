@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 # Cargar las variables de entorno
 load_dotenv()
 
-# Obtener las credenciales y datos de conexión de las variables de entorno ;
+# Obtener las credenciales y datos de conexión de las variables de entorno
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
@@ -40,6 +40,16 @@ def create_tables(sql_instructions, db_host, db_user, db_password, db_name):
                 cursor.execute(instruction)
                 print(f"Tabla creada exitosamente: {instruction.split(' ')[2]}")
         connection.commit()
+
+        # Insertar los datos en la tabla `users`
+        insert_query = """
+        INSERT INTO `users` (`id`, `name`, `username`, `password`, `createDate`, `updateDate`, `is_delete`, `deleteDate`) VALUES
+        (3, 'root', 'root', '$2b$12$dP972PGDV1q74/Jg0vUO4emSZ3/Lu8cj2WeDs/ZtmC7QnWvIxlGnq', '2024-03-19 07:21:19', NULL, NULL, NULL);
+        """
+        cursor.execute(insert_query)
+        connection.commit()
+        print("Datos insertados en la tabla `users` exitosamente.")
+        
     except mysql.connector.Error as error:
         print(f"Error al crear las tablas o la base de datos: {error}")
     finally:
