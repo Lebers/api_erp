@@ -1,4 +1,4 @@
-#import uvicorn
+import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from routers.general import log_router
 from routers.moduloInventario import carpeta_router,  reporte_router, user_router, caja_router,auth_router
@@ -76,7 +76,7 @@ app.include_router(carpeta_router.router)
 app.include_router(reporte_router.router)
 app.include_router(log_router.router)
 
-"""
+
 def serve():
     
     uvicorn.run(app, host="127.0.0.1", port=8004)  
@@ -85,5 +85,5 @@ def serve():
 if __name__ == "__main__":
     serve()
 
-    """
+  
 
