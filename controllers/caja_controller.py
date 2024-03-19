@@ -36,7 +36,14 @@ def update_caja(caja_id: int, caja_data: CajaModel, current_user: dict):
 # Esta función obtiene una caja por su id
 def get_caja_by_id(caja_id: int):
     response = caja_business.get_caja_by_id(caja_id)
-    return handle_response(response, {"caja": response[0].dict()})
+    caja_data = response[0].dict()
+
+    # Convertir los objetos datetime a cadenas de texto en formato ISO 8601
+    caja_data['createDate'] = caja_data['createDate'].isoformat() if caja_data['createDate'] else None
+    caja_data['updateDate'] = caja_data['updateDate'].isoformat() if caja_data['updateDate'] else None
+    caja_data['deleteDate'] = caja_data['deleteDate'].isoformat() if caja_data['deleteDate'] else None
+
+    return handle_response(response, {"caja": caja_data})
 
 # Esta función obtiene todas las cajas
 def get_all_cajas():
