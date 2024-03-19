@@ -98,7 +98,31 @@ class CarpetaBusiness:
     def get_carpetas_by_fecha(self, fecha_inicio: date, fecha_fin: date):
         return self.carpeta_data_access.get_carpetas_by_fecha(fecha_inicio, fecha_fin)
     
-     
+    def get_total_carpetas_by_caja_id(self, caja_id: int):
+
+        response = self.carpeta_data_access.get_total_carpetas_by_caja_id(caja_id)
+
+        print("response-response:",response)
+        
+
+        return response,0, 200, ""
+    
+
+       
+    def get_all_carpetas_by_caja_id(self, caja_id: int):
+        response = self.carpeta_data_access.get_all_carpetas_by_caja_id(caja_id)
+
+        # Verificar si hay carpetas en la respuesta
+        if response:
+            # Si hay carpetas, convertirlas en formato de diccionario
+            carpetas_list = [carpeta.dict() for carpeta in response[0]]
+            return carpetas_list, 0, 200, "Carpetas retrieved by caja ID"
+        else:
+            # Si no hay carpetas, devolver un mensaje de error
+            return [], 0, 200, "No hay carpetas asociadas a esta caja"
+
+ 
+
 
 
         

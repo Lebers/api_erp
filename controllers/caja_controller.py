@@ -5,6 +5,8 @@ from fastapi import HTTPException
 from models.caja import Caja as CajaModel
 from business.CajaBusiness import CajaBusiness
 from functions.api_response import ApiResponse
+from datetime import datetime
+
 
 # Creamos una instancia de la clase CajaBusiness
 caja_business = CajaBusiness()
@@ -39,7 +41,16 @@ def get_caja_by_id(caja_id: int):
 # Esta función obtiene todas las cajas
 def get_all_cajas():
     response = caja_business.get_all_cajas()
-    cajas_list = [caja.dict() for caja in response[0]]
+    cajas_list = []
+
+    for caja in response[0]:
+        caja_dict = caja.dict()
+        # Convertir los objetos datetime a cadenas de texto en formato ISO 8601
+        caja_dict['createDate'] = caja_dict['createDate'].isoformat() if caja_dict['createDate'] else None
+        caja_dict['updateDate'] = caja_dict['updateDate'].isoformat() if caja_dict['updateDate'] else None
+        caja_dict['deleteDate'] = caja_dict['deleteDate'].isoformat() if caja_dict['deleteDate'] else None
+        cajas_list.append(caja_dict)
+
     return handle_response(response, {"cajas": cajas_list})
 
 # Esta función elimina una caja por su id

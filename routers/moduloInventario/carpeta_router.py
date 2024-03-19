@@ -11,7 +11,7 @@ from controllers.carpeta_controller import (
     create_multiple_carpetas,
     get_all_carpetas_by_caja_id
 )
-from functions.dependencies import get_current_user
+from functions.dependencies import get_current_user 
 from typing import List
 
 router = APIRouter()

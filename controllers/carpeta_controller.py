@@ -7,6 +7,8 @@ from business.CarpetaBusiness import CarpetaBusiness
 from functions.api_response import ApiResponse
 from models.carpeta import MultipleCarpetasCreate
 from typing import List
+from datetime import datetime
+
 
 
 # Creamos una instancia de la clase CarpetaBusiness
@@ -55,15 +57,21 @@ def delete_carpeta(carpeta_id: int,current_user: dict):
 
 def create_multiple_carpetas(carpeta_data: MultipleCarpetasCreate, user: dict):
     response = carpeta_business.create_multiple_carpetas(carpeta_data, user)
-    return handle_response(response, [])
-
-def get_all_carpetas_by_caja_id_ld(caja_id: int):
-    response = carpeta_business.get_all_carpetas_by_caja_id(caja_id)
-    carpetas_list = [carpeta.dict() for carpeta in response[0]]
-    return handle_response(response, {"carpetas": carpetas_list,"total":10})
+    return handle_response(response, []) 
 
 def get_all_carpetas_by_caja_id(caja_id: int):
     total_carpetas = carpeta_business.get_total_carpetas_by_caja_id(caja_id)
     response = carpeta_business.get_all_carpetas_by_caja_id(caja_id)
-    carpetas_list = [carpeta.dict() for carpeta in response[0]]
-    return handle_response(response, {"carpetas": carpetas_list, "total": total_carpetas})
+
+    print("total_carpetas-total_carpetas", total_carpetas)
+    print("response-response", response)
+    
+    # Verificar si hay carpetas en la respuesta
+    if response:
+        # Si hay carpetas, no necesitas convertirlas en formato de diccionario
+        carpetas_list = response[0]  # No es necesario usar comprensión de lista aquí
+        return handle_response(response, {"carpetas": carpetas_list, "amount": total_carpetas[0]})
+    else:
+        # Si no hay carpetas, devolver un mensaje de error apropiado
+        return handle_response(response, {"message": "No hay carpetas asociadas a esta caja"})
+ 
