@@ -50,8 +50,8 @@ class CajaDataAccess:
         db = Database()
         codigo = caja.code
         try:
-            query = "INSERT INTO cajas (code, createDate, createUser, is_delete) VALUES (%s, NOW(), %s, NULL)"
-            db.execute_query(query, (codigo, caja.createUser))
+            query = "INSERT INTO cajas (code, createDate, createUser, is_delete,amount) VALUES (%s, NOW(), %s, NULL,%s)"
+            db.execute_query(query, (codigo, caja.createUser,caja.amount))
             db.connection.commit()
             return db.cursor.lastrowid, None, None
         except mysql.connector.Error as e:

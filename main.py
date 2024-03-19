@@ -1,3 +1,4 @@
+#import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from routers.general import log_router
 from routers.moduloInventario import carpeta_router,  reporte_router, user_router, caja_router,auth_router
@@ -6,24 +7,14 @@ from fastapi.responses import JSONResponse
 from dataAccess.moduloInventario import LogDataAccess
 from fastapi.middleware.cors import CORSMiddleware
 
- 
-
-
 app = FastAPI()
-
-origins = [
-    "http://localhost:8003",
-    "http://127.0.0.1:8003",
-    "http://localhost",
-    "http://localhost:8080",
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Los orígenes que pueden realizar solicitudes
+    allow_origins=["*"],   
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos los métodos
-    allow_headers=["*"],  # Permite todos los encabezados
+    allow_methods=["*"],  
+    allow_headers=["*"],   
 )
 
 @app.exception_handler(RequestValidationError)
@@ -39,7 +30,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "type": error['type'],
             "loc": loc,
             "msg": error_message,
-           # "input": error.get('context', {}).get('input', {})
         })
         error_messages.append(error_message)
     
@@ -47,7 +37,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     log_id = log_data_access.log_error(full_error_message)
 
     return JSONResponse(
-        status_code=422,  # Unprocessable Entity
+        status_code=422,
         content={
             "data": None,
             "message": "Validation error",
@@ -85,4 +75,15 @@ app.include_router(caja_router.router)
 app.include_router(carpeta_router.router)
 app.include_router(reporte_router.router)
 app.include_router(log_router.router)
-  
+
+"""
+def serve():
+    
+    uvicorn.run(app, host="127.0.0.1", port=8004)  
+
+
+if __name__ == "__main__":
+    serve()
+
+    """
+

@@ -2,6 +2,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+from decimal import Decimal 
 
 class Caja(BaseModel):
     code: str  
@@ -12,6 +13,7 @@ class Caja(BaseModel):
     deleteDate: Optional[datetime] = Field(None, alias='deleteDate')
     deleteUser: Optional[str] = Field(None, alias='deleteUser')
     is_delete: Optional[bool] = Field(None, alias='is_delete')
+    amount: Optional[Decimal] = Field(0, alias='amount') 
 
 class CajaInDB(BaseModel):
     id: int
@@ -22,9 +24,10 @@ class CajaInDB(BaseModel):
     updateUser: Optional[str] = Field(None, alias='updateUser')
     deleteDate: Optional[datetime] = Field(None, alias='deleteDate')
     deleteUser: Optional[str] = Field(None, alias='deleteUser')
-    is_delete: Optional[bool] = Field(None, alias='is_delete')
-    total: Optional[int] = Field(None, alias='total')
+    is_delete: Optional[bool] = Field(None, alias='is_delete') 
+    amount: Optional[Decimal] = Field(0, alias='amount') 
 
+ 
     def dict(self, **kwargs):
         d = super().dict(**kwargs)
         for key, value in d.items():

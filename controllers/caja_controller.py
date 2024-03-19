@@ -20,6 +20,7 @@ def handle_response(response, success_data):
 
 # Esta función crea una nueva caja, toma como parámetros los datos de la caja y el usuario actual
 def create_caja(caja_data: CajaModel, current_user: dict):
+    print("caja_data-caja_data:",caja_data)
     caja_data.createUser = current_user.get('username')
     response = caja_business.create_caja(caja_data)
     return handle_response(response, {"caja_id": response[0]})
