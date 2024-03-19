@@ -5,7 +5,7 @@ from datetime import datetime
 from decimal import Decimal 
 
 class Caja(BaseModel):
-    id: int
+    id:   Optional[int] = Field(0, alias='amount') 
     code: str  
     createDate: Optional[datetime] = Field(None, alias='createDate')
     createUser: Optional[str] = Field(None, alias='createUser')
@@ -17,7 +17,7 @@ class Caja(BaseModel):
     amount: Optional[int] = Field(0, alias='amount') 
 
 class CajaInDB(BaseModel):
-    id: int
+    id:   Optional[int] = Field(0, alias='amount') 
     code: str
     createDate: Optional[datetime] = Field(None, alias='createDate')
     createUser: Optional[str] = Field(None, alias='createUser')
