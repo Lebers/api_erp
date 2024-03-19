@@ -13,7 +13,7 @@ class Caja(BaseModel):
     deleteDate: Optional[datetime] = Field(None, alias='deleteDate')
     deleteUser: Optional[str] = Field(None, alias='deleteUser')
     is_delete: Optional[bool] = Field(None, alias='is_delete')
-    amount: Optional[Decimal] = Field(0, alias='amount') 
+    amount: Optional[int] = Field(0, alias='amount') 
 
 class CajaInDB(BaseModel):
     id: int
@@ -25,7 +25,7 @@ class CajaInDB(BaseModel):
     deleteDate: Optional[datetime] = Field(None, alias='deleteDate')
     deleteUser: Optional[str] = Field(None, alias='deleteUser')
     is_delete: Optional[bool] = Field(None, alias='is_delete') 
-    amount: Optional[Decimal] = Field(0, alias='amount') 
+    amount: Optional[int] = Field(0, alias='amount') 
 
  
     def dict(self, **kwargs):

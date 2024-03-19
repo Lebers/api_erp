@@ -89,7 +89,10 @@ class CajaDataAccess:
                     c.deleteDate, 
                     c.deleteUser, 
                     c.is_delete,
-                    COUNT(cf.id) AS total
+                    CASE
+                        WHEN c.amount != 0 THEN c.amount
+                        ELSE COUNT(cf.id)
+                    END AS amount
                 FROM 
                     cajas c
                 LEFT JOIN
@@ -105,7 +108,8 @@ class CajaDataAccess:
                     c.updateUser, 
                     c.deleteDate, 
                     c.deleteUser, 
-                    c.is_delete
+                    c.is_delete,
+                    c.amount
                 ORDER BY 
                     c.id DESC
             """
@@ -113,6 +117,7 @@ class CajaDataAccess:
             cajas = []
             if result:
                 for caja_data in result:
+                    # Asegúrate de que el modelo CajaInDB pueda manejar el campo 'total' correctamente
                     caja = CajaInDB(**caja_data)
                     cajas.append(caja)
                 return cajas, None, None
@@ -122,7 +127,6 @@ class CajaDataAccess:
             return None, log_id, 500
         finally:
             db.disconnect()
-
 
     def get_caja_by_id(self, caja_id: int):
         db = Database()
@@ -159,13 +163,46 @@ class CajaDataAccess:
         try:
             db.connect()
             query = """
-                SELECT * FROM cajas
-                WHERE createDate BETWEEN %s AND %s
-                AND is_delete IS NULL
+                SELECT 
+                    c.id, 
+                    c.code, 
+                    c.createDate, 
+                    c.createUser, 
+                    c.updateDate, 
+                    c.updateUser, 
+                    c.deleteDate, 
+                    c.deleteUser, 
+                    c.is_delete,
+                    CASE
+                        WHEN c.amount != 0 THEN c.amount
+                        ELSE COUNT(cf.id)
+                    END AS amount
+                FROM 
+                    cajas c
+                LEFT JOIN
+                    carpetas cf ON c.id = cf.caja_id
+                WHERE 
+                    c.createDate BETWEEN %s AND %s
+                    AND c.is_delete IS NULL
+                GROUP BY 
+                    c.id, 
+                    c.code, 
+                    c.createDate, 
+                    c.createUser, 
+                    c.updateDate, 
+                    c.updateUser, 
+                    c.deleteDate, 
+                    c.deleteUser, 
+                    c.is_delete,
+                    c.amount
             """
             result = db.execute_query(query, (fecha_inicio, fecha_fin))
-            cajas = [CajaInDB(**data) for data in result]
-            return cajas
+            cajas = []
+            if result:
+                for caja_data in result:
+                    caja = CajaInDB(**caja_data)
+                    cajas.append(caja)
+                return cajas
         except mysql.connector.Error as e:
             self.log_error(db, e)
             return []
