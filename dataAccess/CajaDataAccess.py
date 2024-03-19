@@ -3,6 +3,7 @@ from functions.db import Database
 from models.caja import Caja as CajaModel
 from models.caja import CajaInDB
 from datetime import date
+from models.caja import Cajaxxx
 
 class CajaDataAccess:
     def log_error(self, db, error):
@@ -191,7 +192,7 @@ class CajaDataAccess:
             cajas = []
             if result:
                 for caja_data in result:
-                    caja = CajaInDB(**caja_data)
+                    caja = Cajaxxx(**caja_data)
                     cajas.append(caja)
                 return cajas
         except mysql.connector.Error as e:

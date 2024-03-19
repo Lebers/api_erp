@@ -1,6 +1,7 @@
 # business/moduloInventario.py
 from dataAccess.CajaDataAccess import CajaDataAccess
 from models.caja import Caja as CajaModel
+from models.caja import Cajaxxx
 from datetime import date
 
 

@@ -2,13 +2,15 @@
 
 from typing import List
 from models.caja import Caja
+
+from models.caja import Cajaxxx
 from models.carpeta import Carpeta
 from business.CajaBusiness import CajaBusiness
 from business.CarpetaBusiness import CarpetaBusiness
 from datetime import date
 
 
-def get_reporte_cajas(fecha_inicio: date, fecha_fin: date) -> List[Caja]:
+def get_reporte_cajas(fecha_inicio: date, fecha_fin: date) -> List[Cajaxxx]:
     caja_business = CajaBusiness()
     return caja_business.get_cajas_by_fecha(fecha_inicio, fecha_fin)
 
