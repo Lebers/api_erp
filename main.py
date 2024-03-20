@@ -8,6 +8,8 @@ from dataAccess.moduloInventario import LogDataAccess
 from fastapi.middleware.cors import CORSMiddleware
 import socket
 from dotenv import load_dotenv
+from router_config import include_routers
+
 
 import os
 
@@ -74,13 +76,8 @@ def http_exception_handler(request, exc):
         }
     )
 
-# Include routers from imported modules
-app.include_router(auth_router.router)
-app.include_router(user_router.router)
-app.include_router(caja_router.router)
-app.include_router(carpeta_router.router)
-app.include_router(reporte_router.router)
-app.include_router(log_router.router)
+# Include routers
+include_routers(app)
 
 
 def get_host_ip():

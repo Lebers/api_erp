@@ -16,7 +16,6 @@ router = APIRouter()
 
 @router.post("/caja", tags=["Cajas"],  responses=response_descriptions)
 def create_new_caja(caja_data: Caja, user: str = Depends(get_current_user)):
-    print("caja_data-caja_data:",caja_data)
     return create_caja(caja_data, user) 
 
 @router.put("/caja/{caja_id}", tags=["Cajas"],  responses=response_descriptions)
