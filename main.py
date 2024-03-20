@@ -7,7 +7,11 @@ from fastapi.responses import JSONResponse
 from dataAccess.moduloInventario import LogDataAccess
 from fastapi.middleware.cors import CORSMiddleware
 import socket
+from dotenv import load_dotenv
 
+import os
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -81,20 +85,21 @@ app.include_router(log_router.router)
 
 def get_host_ip():
     try:
-        # Intenta obtener la dirección IP del host
         host_name = socket.gethostname()
         host_ip = socket.gethostbyname(host_name)
         return host_ip
     except:
-        # En caso de que falle, utiliza localhost
         return "127.0.0.1"
 
 def serve():
-    host_ip = get_host_ip()
-    uvicorn.run(app, host=host_ip, port=8004)
+    # Decide si usar la IP dinámica o la estática basándose en la variable de entorno
+    use_dynamic_ip = os.getenv("USE_DYNAMIC_IP", "false").lower() == "true"
+    host_ip = get_host_ip() if use_dynamic_ip else "127.0.0.1"
+    server_port = int(os.getenv('SERVER_PORT', 8004))  # Usa 8004 como puerto predeterminado si no se especifica
+
+    uvicorn.run(app, host=host_ip, port=server_port)
 
 if __name__ == "__main__":
     serve()
-  
 
  
