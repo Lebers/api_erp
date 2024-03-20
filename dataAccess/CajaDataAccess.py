@@ -84,8 +84,7 @@ class CajaDataAccess:
                     c.id, 
                     c.code, 
                     c.createDate, 
-                    
-                    (SELECT GetUserName(c.createUser)) AS createUser, 
+                    (SELECT name  FROM users WHERE username = c.createUser) AS createUser, 
                     c.updateDate, 
                     c.updateUser, 
                     c.deleteDate, 
@@ -169,7 +168,7 @@ class CajaDataAccess:
                     c.id, 
                     c.code, 
                     c.createDate, 
-                    (SELECT GetUserName(c.createUser)) AS createUser, 
+                    (SELECT name  FROM users WHERE username = c.createUser) AS createUser, 
                     c.updateDate, 
                     c.updateUser, 
                     c.deleteDate,  

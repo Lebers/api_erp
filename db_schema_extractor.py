@@ -18,24 +18,32 @@ def obtener_esquema_db():
         
         if conexion.is_connected():
             cursor = conexion.cursor()
+            esquema = ""
+
+            # Extraer las tablas
             cursor.execute("SHOW TABLES")
             tablas = cursor.fetchall()
-
-            esquema = ""
             for tabla in tablas:
-                esquema += f"Tabla: {tabla[0]}\n"
-                cursor.execute(f"SHOW CREATE TABLE {tabla[0]}")
+                cursor.execute(f"SHOW CREATE TABLE `{tabla[0]}`")
                 create_table_stmt = cursor.fetchone()
                 esquema += f"{create_table_stmt[1]};\n\n"
-            
-            # Agregar las funciones almacenadas al esquema
+
+            # Extraer las funciones
             cursor.execute("SHOW FUNCTION STATUS WHERE Db = %s", (os.getenv('DB_NAME'),))
             funciones = cursor.fetchall()
             for funcion in funciones:
-                esquema += f"Función: {funcion[1]}\n"
-                cursor.execute(f"SHOW CREATE FUNCTION {funcion[1]}")
+                cursor.execute(f"SHOW CREATE FUNCTION `{funcion[1]}`")
                 create_function_stmt = cursor.fetchone()
-                esquema += f"{create_function_stmt[2]};\n\n"
+                function_definition = create_function_stmt[2]
+
+                # Eliminar el definer de la definición
+                definer_pos = function_definition.find('DEFINER=')
+                if definer_pos != -1:
+                    definer_end = function_definition.find(' ', definer_pos)
+                    function_definition = (function_definition[:definer_pos] + 
+                                           function_definition[definer_end:])
+                
+                esquema += f"{function_definition};\n\n"
 
             return esquema
     except Error as e:

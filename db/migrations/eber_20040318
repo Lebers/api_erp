@@ -1,0 +1,9 @@
+CREATE FUNCTION GetUserByName(user_username VARCHAR(250))
+RETURNS VARCHAR(250)
+BEGIN
+    DECLARE user_name VARCHAR(250);
+    SELECT `name` INTO user_name
+    FROM `users`
+    WHERE `username` = user_username;
+    RETURN user_name;
+END;

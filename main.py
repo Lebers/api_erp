@@ -89,9 +89,15 @@ def get_host_ip():
         return "127.0.0.1"
 
 def serve():
-    # Decide si usar la IP dinámica o la estática basándose en la variable de entorno
-    use_dynamic_ip = os.getenv("USE_DYNAMIC_IP", "false").lower() == "true"
-    host_ip = get_host_ip() if use_dynamic_ip else "127.0.0.1"
+    # Primero, revisar si hay una IP específica configurada en .env
+    fixed_ip = os.getenv("IP")
+    if fixed_ip:
+        host_ip = fixed_ip
+    else:
+        # Decide si usar la IP dinámica o la estática basándose en la variable de entorno
+        use_dynamic_ip = os.getenv("USE_DYNAMIC_IP", "false").lower() == "true"
+        host_ip = get_host_ip() if use_dynamic_ip else "127.0.0.1"
+
     server_port = int(os.getenv('SERVER_PORT', 8004))  # Usa 8004 como puerto predeterminado si no se especifica
 
     uvicorn.run(app, host=host_ip, port=server_port)
