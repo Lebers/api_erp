@@ -84,7 +84,8 @@ class CajaDataAccess:
                     c.id, 
                     c.code, 
                     c.createDate, 
-                    c.createUser, 
+                    
+                    (SELECT GetUserName(c.createUser)) AS createUser, 
                     c.updateDate, 
                     c.updateUser, 
                     c.deleteDate, 
@@ -103,7 +104,7 @@ class CajaDataAccess:
                 GROUP BY 
                     c.id, 
                     c.code, 
-                    c.createDate, 
+                    c.createDate,
                     c.createUser, 
                     c.updateDate, 
                     c.updateUser, 
@@ -169,7 +170,6 @@ class CajaDataAccess:
                     c.code, 
                     c.createDate, 
                     (SELECT GetUserName(c.createUser)) AS createUser, 
-                    
                     c.updateDate, 
                     c.updateUser, 
                     c.deleteDate,  
@@ -182,12 +182,15 @@ class CajaDataAccess:
                 FROM 
                     cajas c
                 LEFT JOIN
-                    carpetas cf ON c.id = cf.caja_id
+                    carpetas cf ON c.id = cf.caja_id  AND cf.is_delete IS NULL
+                    
                 WHERE 
                     c.createDate >= %s AND c.createDate < DATE_ADD(%s, INTERVAL 1 DAY)
                     AND c.is_delete IS NULL
+                     
+                    
                 GROUP BY 
-                    c.id, c.code, c.createDate, c.createUser, c.updateDate, c.updateUser, c.deleteDate, c.deleteUser, c.is_delete
+                    c.id, c.code, c.createDate, c.createUser,  c.updateDate, c.updateUser, c.deleteDate, c.deleteUser, c.is_delete
             """
             result = db.execute_query(query, (fecha_inicio, fecha_fin))
             cajas = []
@@ -196,7 +199,7 @@ class CajaDataAccess:
                     caja = Cajaxxx(**caja_data)
                     cajas.append(caja)
                 return cajas
-        except mysql.connector.Error as e:
+        except mysql.connector.Error as e: 
             self.log_error(db, e)
             return []
         finally:

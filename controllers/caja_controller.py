@@ -50,13 +50,19 @@ def get_all_cajas():
     response = caja_business.get_all_cajas()
     cajas_list = []
 
-    for caja in response[0]:
-        caja_dict = caja.dict()
-        # Convertir los objetos datetime a cadenas de texto en formato ISO 8601
-        caja_dict['createDate'] = caja_dict['createDate'].isoformat() if caja_dict['createDate'] else None
-        caja_dict['updateDate'] = caja_dict['updateDate'].isoformat() if caja_dict['updateDate'] else None
-        caja_dict['deleteDate'] = caja_dict['deleteDate'].isoformat() if caja_dict['deleteDate'] else None
-        cajas_list.append(caja_dict)
+    # Ensure that the first element of the response is iterable
+    if response[0] is not None:
+        for caja in response[0]:
+            caja_dict = caja.dict()
+            # Convertir los objetos datetime a cadenas de texto en formato ISO 8601
+            caja_dict['createDate'] = caja_dict['createDate'].isoformat() if caja_dict['createDate'] else None
+            caja_dict['updateDate'] = caja_dict['updateDate'].isoformat() if caja_dict['updateDate'] else None
+            caja_dict['deleteDate'] = caja_dict['deleteDate'].isoformat() if caja_dict['deleteDate'] else None
+            cajas_list.append(caja_dict)
+    else:
+        # Handle the case where response[0] is None
+        # You might want to log this situation or handle it accordingly
+        print("No data available to iterate.")
 
     return handle_response(response, {"cajas": cajas_list})
 
