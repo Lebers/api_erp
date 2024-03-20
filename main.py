@@ -6,6 +6,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from dataAccess.moduloInventario import LogDataAccess
 from fastapi.middleware.cors import CORSMiddleware
+import socket
+
 
 app = FastAPI()
 
@@ -77,13 +79,22 @@ app.include_router(reporte_router.router)
 app.include_router(log_router.router)
 
 
-def serve():
-    
-    uvicorn.run(app, host="127.0.0.1", port=8004)  
+def get_host_ip():
+    try:
+        # Intenta obtener la dirección IP del host
+        host_name = socket.gethostname()
+        host_ip = socket.gethostbyname(host_name)
+        return host_ip
+    except:
+        # En caso de que falle, utiliza localhost
+        return "127.0.0.1"
 
+def serve():
+    host_ip = get_host_ip()
+    uvicorn.run(app, host=host_ip, port=8004)
 
 if __name__ == "__main__":
     serve()
-
   
 
+ 
