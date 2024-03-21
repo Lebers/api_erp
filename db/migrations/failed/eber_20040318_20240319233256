@@ -1,0 +1,12 @@
+DELIMITER //
+
+CREATE PROCEDURE GetUserByName(IN user_username VARCHAR(250))
+BEGIN
+    DECLARE user_name VARCHAR(250);
+    SELECT `name` INTO user_name
+    FROM `users`
+    WHERE `username` = user_username;
+    SELECT user_name;
+END//
+
+DELIMITER ;

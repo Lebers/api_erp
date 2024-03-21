@@ -1,0 +1,9 @@
+BEGIN
+
+    DECLARE user_name VARCHAR(250);
+    SELECT 'name' INTO user_name
+    FROM 'users'
+    WHERE 'username' = user_username;
+    RETURN user_name;
+ 
+END

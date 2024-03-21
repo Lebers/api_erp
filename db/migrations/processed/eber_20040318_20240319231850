@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `asas` INT NOT NULL AFTER `deleteDate`;
