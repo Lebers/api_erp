@@ -108,14 +108,14 @@ class ModuloInventario_DataAccess:
         db = Database()
         try:
             db.connect()
-            query = "SELECT id, username, name, createDate, updateDate FROM users where is_delete is null"
+            query = "SELECT id, username, name, createDate, updateDate FROM users where is_delete is null and username<>'root'"
             result = db.execute_query(query)
             users = []
             if result:
                 for user_data in result:
                     users.append(UserInDB(**user_data))
                 return users, None, None   
-            return [], None, 404   
+            return [], None, 200   
         except mysql.connector.Error as e:
             log_id = self.log_error(e)  
             return None, log_id, 500   

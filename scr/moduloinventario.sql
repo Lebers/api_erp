@@ -101,3 +101,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+INSERT INTO moduloinventario.users
+(  name, username, password, createDate)
+VALUES(  'super usuario', 'root', '$2b$12$e/wiKrh5enwQk306ccXQJOjkVQ.SSGbQb6dGaZQQjdi7CV/zNgeE6', NOW() );
+
+
+

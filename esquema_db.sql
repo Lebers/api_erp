@@ -51,3 +51,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
+
+INSERT INTO moduloinventario.users
+(  name, username, password, createDate)
+VALUES(  'super usuario', 'root', '$2b$12$e/wiKrh5enwQk306ccXQJOjkVQ.SSGbQb6dGaZQQjdi7CV/zNgeE6', NOW() );

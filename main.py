@@ -101,6 +101,7 @@ def serve():
     server_port = int(os.getenv('SERVER_PORT', 8004))  # Usa 8004 como puerto predeterminado si no se especifica
 
     uvicorn.run(app, host=host_ip, port=server_port)
+    
 
 if __name__ == "__main__":
     serve()

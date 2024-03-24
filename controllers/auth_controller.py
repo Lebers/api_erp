@@ -12,7 +12,7 @@ def login(username: str, password: str):
     response = user_business.authenticate_user(username, password)
     data, log_id, status_code,msg = response
     if data:
-        return ApiResponse.success({"token": data}, msg)
+        return ApiResponse.success({"token": data,"user":username}, msg,"status":"success",)
     else:
         return ApiResponse.error(msg, log_id,status_code)
  
