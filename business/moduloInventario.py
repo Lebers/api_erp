@@ -39,9 +39,9 @@ class UserBusiness:
         if data:
             if self.verify_password(data["password"], password):
                 return self.generate_token(data), None, 200,"Acceso corecto"
-            return None, None, 200 ,"Contraseña incorrecta"
+            return None, None, 401 ,"Contraseña incorrecta"
         else:
-            return None, None, 200 ,"Usuario no existe"
+            return None, None, 401 ,"Usuario no existe"
  
  
         
