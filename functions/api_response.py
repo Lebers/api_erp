@@ -10,7 +10,8 @@ class ApiResponse:
             status_code=status_code,
             content={
                 "data": data,
-                "message": message 
+                "message": message,
+                "status": "success" 
             }
         )
 
@@ -24,7 +25,8 @@ class ApiResponse:
                 content={
                     "data": None,
                     "message": "Algo ocurrio",
-                    "error": {"folio_error": log_id}
+                    "error": {"folio_error": log_id},
+                    "status": "error" 
                 })
         elif(status_code==409):
             log_id = log_data_access.log_error(message)
@@ -33,14 +35,16 @@ class ApiResponse:
                 content={
                     "data": [],
                     "message":"Algo ocurrio", 
-                    "error": {"folio_error": log_id, "details":message }
+                    "error": {"folio_error": log_id, "details":message },
+                    "status": "error" 
                 })
         else:
             return JSONResponse(
                 status_code=status_code,
                 content={
                     "data": None,
-                    "message": message 
+                    "message": message,
+                    "status": "----"  
                 })
         
         
