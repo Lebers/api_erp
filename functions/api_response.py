@@ -44,7 +44,7 @@ class ApiResponse:
                 content={
                     "data": None,
                     "message": message,
-                    "status": "----"  
+                    "status": "success"
                 })
         
         
